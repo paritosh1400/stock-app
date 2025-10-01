@@ -1,0 +1,83 @@
+<div class="container">
+  <div *ngIf="message" class="alert alert-success alert-dismissible fade show align-items-center text-center mt-4">
+    {{ message }}
+    <button type="button" class="btn-close" aria-label="Close" (click)="clearMessage()">
+    <!-- <span aria-hidden="true">&times;</span> -->
+    </button>
+  </div>
+</div>
+
+<div class="container">
+  <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show align-items-center text-center mt-4">
+    {{ successMessage }}
+    <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close" (click)="clearSuccessMessage()">
+      <!-- <span aria-hidden="true">&times;</span> -->
+    </button>
+  </div>
+</div>
+
+<div class="container">
+  <div class="col">
+    <div class="row stock-data-display mb-3">
+      
+        <div class="col-md-4 col-5 comp">
+          <div class="d-flex justify-content-center align-items-start">
+  
+            <div class="text-center comp-head">{{ stockData.ticker }}</div>
+              <!-- <i class="bi bi-star" (click)="emitAddToWatchlist()"></i> -->
+              <i class="bi" [ngClass]="isStockInWatchlist ? 'bi-star-fill' : 'bi-star'" (click)="emitAddToWatchlist()"></i>
+  
+          </div>
+  
+          <div class="text-center comp-name">{{ stockData.name }}</div>
+          <div class="text-center comp-ex">{{ stockData.exchange }}</div>
+          <div class="d-flex justify-content-center">
+            <button type="button" class="btn btn-success" (click)="openBuyModal()">Buy</button>
+            <button *ngIf="stockExists" type="button" class="btn btn-danger" (click)="openSellModal()">Sell</button>
+          </div>
+  
+        </div>
+  
+        <div class="col-md-4 col-2 d-flex flex-column">
+          <div class="col-2 d-flex flex-column"></div>
+          <img class="logo img-fluid" src="{{ stockData.logo }}">
+        </div>
+  
+        <div class="col-md-4 col-5 comp">
+  
+          <div class="text-center price-head"[ngClass]="{'green': priced >= 0, 'red': priced < 0}">{{ pricec }}</div>
+  
+          <div class="text-center price-sub"[ngClass]="{'green': priced >= 0, 'red': priced < 0}">
+            <span *ngIf="priced >= 0"><i class="bi bi-caret-up-fill"></i></span>
+            <span *ngIf="priced < 0"><i class="bi bi-caret-down-fill"></i></span>
+            {{ priced }} ({{ pricedp+"%" }})
+          </div>
+  
+          <div class="text-center price-time">{{ currentDate }}</div>
+  
+        </div>
+      
+      </div>
+  
+      <div class="row mt-3">
+  
+        <div class="text-center market" [ngClass]="{'green': !isMarketClosed(), 'red': isMarketClosed()}">
+          <span *ngIf="isMarketClosed(); else marketOpen">Market Closed on {{ formattedDate }}</span>
+          <ng-template #marketOpen>Market is Open</ng-template>
+        </div>
+  
+      </div>
+  </div>
+</div>
+
+
+
+
+<app-tabdetails [stockData]="stockData" [priceData]="priceData" 
+[ticker]="ticker" [ticker]="ticker" (peerSelected)="onPeerSelected($event)"
+[marketClosed]="isMarketClosed()">
+</app-tabdetails>
+
+<app-buy-modal #buyModal [pricec]="pricec" [ticker]="ticker" [name]="stockData.name" (purchaseSuccess)="displaySuccessMessage($event)"></app-buy-modal>
+<app-sell-modal #sellModal [pricec]="pricec" [ticker]="ticker" [name]="stockData.name" (saleSuccess)="displaySuccessMessage($event)"></app-sell-modal>
+ 

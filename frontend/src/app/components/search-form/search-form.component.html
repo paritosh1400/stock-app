@@ -1,0 +1,74 @@
+<!-- <div class="heading">STOCK SEARCH</div>
+<form #searchform="ngForm" (ngSubmit)="onSubmit(searchform.value)" novalidate>
+  <div class="input-group rounded search-field">
+    <input type="search" class="form-control search-input" placeholder="Enter stock ticker symbol" aria-label="Search" aria-describedby="search-addon" name="stockTicker" [(ngModel)]="stockTicker" (input)="onInputChange($event)" [matAutocomplete]="auto"/>
+    <button type="submit" class="btn input-group-text search-button" id="search-addon">
+      <i class="fas fa-search"></i>
+    </button>
+    <button type="button" class="btn search-cross" (click)="clearForm()">
+      <i class="fa fa-close"></i>
+    </button>
+  </div>
+</form> -->
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="text-center h2" style="margin-top: 0.5em;">STOCK SEARCH</div>
+      <form class="d-flex align-items-center box justify-content-center mt-4" #searchform="ngForm" (ngSubmit)="onSubmit(searchform.value)" novalidate>
+        <div class="search-box d-flex rounded-pill border-3 col-md-8 col-12">
+
+          <input type="search" class="form-control rounded-pill search-input" 
+            placeholder="Enter stock ticker Symbol"
+            aria-label="Search" 
+            aria-describedby="search-addon" 
+            name="stockTicker" 
+            [(ngModel)]="stockTicker" 
+            (input)="onInputChange($event)" 
+            [matAutocomplete]="auto">
+          
+          <div class="input-group-append">
+            <button type="submit" class="btn">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+          <div class="input-group-append">
+            <button type="button" class="btn" (click)="clearForm()">
+              <i class="fa fa-close"></i>
+            </button>
+          </div>
+
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<mat-autocomplete #auto="matAutocomplete" (optionSelected)="onOptionSelected($event)">
+  <mat-option *ngFor="let result of searchResults" [value]="result">
+    {{ result }}
+  </mat-option>
+  <mat-option *ngIf="showAutocomplete">
+    <mat-progress-spinner diameter="20" mode="indeterminate"></mat-progress-spinner>
+  </mat-option>
+</mat-autocomplete>
+
+
+<div *ngIf="isLoading">
+  <div class="d-flex justify-content-center" style="margin-top: 3em;">
+    <div class="spinner-border text-primary" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div *ngIf="showError" class="alert alert-danger alert-dismissisble fade show mt-4 text-center" role="alert">
+    {{ errorMessage }}
+  </div>
+</div>
+
+<div *ngIf="stockResult || priceResult" class="stock-data-display">
+  <app-stock-display (peerChanged)="onPeerChanged($event)"></app-stock-display>
+</div>
+

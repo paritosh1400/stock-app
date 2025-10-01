@@ -1,0 +1,39 @@
+.search-input {
+  border: 0;
+}
+
+.btn {
+  outline: none!important;
+  box-shadow: none!important;
+  color: darkblue;
+}
+
+input:focus, .btn:focus{
+  outline: none!important;
+  box-shadow: none!important;
+}
+
+.search-box{
+  background-color: white;
+  border: 2em solid darkblue;
+}
+  
+/*  
+  .search-field .form-control:focus, .search-field .btn:focus {
+    outline: none !important;
+    box-shadow: none !important;
+  } */
+
+.search-input::-webkit-search-cancel-button {
+    display: none;
+}
+
+/* For Mozilla Firefox */
+.search-input::-moz-search-clear-button {
+    display: none;
+}
+
+/* For Microsoft Edge */
+.search-input::-ms-clear {
+    display: none;
+}

@@ -1,0 +1,26 @@
+/* .footercont{
+    margin-right: auto;
+    margin-left: auto;
+    font-weight: bold;
+}
+
+.navbar-expand-lg{
+    background-color: #ccc;
+    height: 55px;
+    width: 100%;
+    margin-top: 30px;
+} */
+
+.navbar-expand-lg {
+  background-color: #ccc;
+  height: 55px;
+  width: 100%;
+  display: flex;              
+  justify-content: center;    
+  align-items: center;    
+  margin-top: 30px;    
+}
+
+.footercont {
+  font-weight: bold;
+}

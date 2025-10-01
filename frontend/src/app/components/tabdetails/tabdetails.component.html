@@ -1,0 +1,177 @@
+
+<div class="container">
+  <mat-tab-group animationDuration="0ms" style="margin-top: 7em;">
+
+    <mat-tab label="Summary">
+  
+      <div class="col">
+        <div class="row mb-5 justify-content-center">
+            <div class="col-md-6 col-12 mt-3 mb-2">
+              <div class="row">
+                <div class="col-md-6 col-12 text-center">
+                  <div class="m-0 h6"><span class="font-weight-bold m-0">High Price:</span>{{ priceData?.h }}</div>
+                  <div class="m-0 h6"><span class="font-weight-bold">Low Price:</span>{{priceData?.l}}</div>
+                  <div class="m-0 h6"><span class="font-weight-bold">Open Price:</span>{{priceData?.o}}</div>
+                  <div class="m-0 h6"><span class="font-weight-bold">Prev. Close</span>{{priceData?.pc}}</div>
+                </div>
+              </div>
+              <div class="row text-center">
+                <div class="col-12 mx-auto text-center mt-5">
+                  <div class="font-weight-bold text-decoration-underline h4">About the Company</div>
+                  <div class="h6"><span class="font-weight-bold">IPO Start Date: </span>{{stockData.ipo}}</div>
+                  <div class="h6"><span class="font-weight-bold">Industry: </span>{{stockData.finnhubIndustry}}</div>
+                  <div class="h6"><span class="font-weight-bold">Webpage: </span><a href="{{stockData.weburl}}" target="_blank">{{stockData.weburl}}</a></div>
+                  <div class="font-weight-bold h6">Company Peers:</div>
+                  <div class="text-center">
+                    <ng-container *ngFor="let peer of peerData; let i = index">
+                      <span class="_peer" (click)="onPeerClick(peer)">
+                        <div style="text-decoration: underline; display: inline-flex; color: blue;">{{ peer }}</div>
+                      </span>
+              
+                      <ng-container *ngIf="i < peerData.length - 1">, </ng-container>
+                    </ng-container>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-12 text-center">
+              <highcharts-chart
+                class="hour-data"
+                [Highcharts]="Highcharts"
+                [constructorType]="chartConstructor"
+                [options]="HourOptions"
+                style="display: block;">   
+              </highcharts-chart>
+            </div>
+        </div>
+      </div>
+  
+    </mat-tab>
+  
+  
+    <mat-tab label="Top News">
+      
+      <div class="col">
+        <div class="row justify-content-center overflow-hidden w-100">
+          <div class="col-md-6 mt-3" *ngFor="let newsItem of newsData">
+            <div class="card rounded" *ngIf="newsItem.image" (click)="openNewsModal(newsItem)">
+              <div class="card-body row align-items-center">
+                <div class="col-md-3 col-12 text-center"><img class="newsimage img-fluid" src="{{ newsItem.image }}"></div>
+                <div class="col-md-9 text-center"><div class="d-inline">{{newsItem.headline}}</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+    </mat-tab>
+  
+  
+    <mat-tab label="Charts">
+  
+      <div>
+        <highcharts-chart
+        [Highcharts]="Highcharts"
+        [constructorType]="chartConstructor"
+        [options]="comp1Options"
+        style="display: block; margin-top: 5em;">
+        </highcharts-chart>
+      </div>
+  
+    </mat-tab>
+  
+  
+    <mat-tab label="Insights">
+  
+      <div class="col mb-4 text-center">
+        <div class="d-flex row justify-content-center">
+          <h3 class="text-center font-weight-bold" style="font-size: 1.5em; margin-top: 3em;">Insider Sentiments</h3>
+          <table class="w-50 text-center mb-5">
+            <thead>
+              <tr>
+                <td class="col-4 border-top-0 fw-bold border-bottom border-dark">{{stockData.name}}</td>
+                <td class="col-4 col-4 border-top-0 fw-bold border-bottom border-dark">MSPR</td>
+                <td class="col-4 col-4 border-top-0 fw-bold border-bottom border-dark">Change</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="fw-bold border-bottom border-dark">Total</td>
+                <td class="border-bottom border-dark">{{totalMspr}}</td>
+                <td class="border-bottom border-dark">{{totalChange}}</td>
+              </tr>
+              <tr>
+                <td class="fw-bold border-bottom border-dark">Positive</td>
+                <td class="border-bottom border-dark">{{positiveMspr}}</td>
+                <td class="border-bottom border-dark">{{negativeChange}}</td>
+              </tr>
+              <tr>
+                <td class="fw-bold border-bottom border-dark">Positive</td>
+                <td class="border-bottom border-dark">{{negativeMspr}}</td>
+                <td class="border-bottom border-dark">{{negativeChange}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <highcharts-chart 
+              [Highcharts]="Highcharts" 
+              [constructorType]="chartConstructor"
+              [options]="chartOptions" 
+              style="display: block;">
+            </highcharts-chart>
+          </div>
+       
+          <div class="col-md-6">
+            <highcharts-chart
+              [Highcharts]="Highcharts" 
+              [constructorType]="chartConstructor"
+              [options]="histepschartOptions" 
+              style="display: block;">
+          </highcharts-chart>
+          </div>
+        </div>
+      </div>
+  
+  
+    </mat-tab>
+  
+  </mat-tab-group>
+</div>
+
+
+<div class="modal fade" id="newsDetailModal" tabindex="-1" aria-labelledby="newsDetailModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-head">
+          <h3 class="modal-title" id="newsDetailModalLabel">{{ selectedNewsItem?.source }}</h3>
+          <div class="modal-date">{{ selectedNewsItem?.datetime | customDateFormat }}</div>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-heading">{{ selectedNewsItem?.headline }}</div>
+        <div class="modal-summary">{{ selectedNewsItem?.summary }}</div>
+        <div class="modal-more">For more details click <a href="{{ selectedNewsItem?.url }}" target="_blank">here</a></div>
+        <div class="modal-share">
+          <div class="modal-sht">Share</div>
+          <div class="share-icon">
+            <a class="twitter-share-button"
+              href="https://twitter.com/intent/tweet?text={{ selectedNewsItem?.headline }}%20{{ selectedNewsItem?.url }}"
+              data-size="large"
+              target="_blank">
+              <img src="../../../assets/x.jpg" style="height:3em">
+            </a>
+            <div class="fb-share-button ml2" [attr.data-href]=selectedNewsItem?.url data-layout="" data-size="">
+              <a href="https://www.facebook.com/sharer/sharer.php?u={{selectedNewsItem?.url}}&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore" target="_blank">
+                <img src="../../../assets/facebook.jpg" style="height:5em; padding-bottom:2em" >
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

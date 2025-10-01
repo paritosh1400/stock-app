@@ -1,0 +1,23 @@
+<div class="modal fade" [class.show]="showModal" [style.display]="showModal ? 'block' : 'none'" tabindex="-1" aria-labelledby="PortBuyModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="newBuyModalLabel">{{ticker}} {{name}}</h5>
+          <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" (click)="closeModal()">
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="CurrPrice">Current Price: {{ price }}</div>
+          <div class="Wallet">Money in Wallet: {{ wallet | currency:'USD':true:'1.2-2' }}</div>
+          <div class="Quantity">Quantity:<input class="quantity" type="number" min="0" [(ngModel)]="quantity"></div>
+          <div *ngIf="calculateTotal() == null" style="color: red;">Not enough money in the wallet</div>
+        </div>
+        <div class="modal-footer">
+          <div class="total">Total: {{ calculateTotal() | currency:'USD':true:'1.2-2' }}</div>
+          <button type="button" class="btn btn-success" data-dismiss="modal" (click)="buyStock()" [disabled]="calculateTotal() == null">Buy</button>
+        </div>
+      </div>
+    </div>
+</div>
+<div class="modal-backdrop fade" [class.show]="showModal" *ngIf="showModal"></div>
+  

@@ -1,0 +1,19 @@
+.bg-body-tertiary{
+    background-color: darkblue !important;
+}
+
+.nav-link{
+    color: rgb(183, 183, 183);
+    border: 2px solid white;
+    border-radius: 15px;
+    margin-right: 0.5em;
+    margin-left: 0.5em;
+    margin-top: 0.2em;
+    margin-bottom: 0.3em;
+}
+
+.navbar-nav .nav-item.nav-link:hover {
+    color: white;
+}
+
+

@@ -1,0 +1,80 @@
+.mat-mdc-tab-body-content{
+    overflow-x: hidden;
+}
+
+.news{
+    display: inline-flex;
+    width: 48%;
+    height: 100px;
+    margin-top: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    margin-right: 20px;
+    background-color: #f9fbfb;
+}
+
+.newsimage{
+    /* height: 100px; */
+    /* width: 150px; */
+    padding-right: 15px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 15px;
+    border-radius: 20px;
+}
+
+.newsheadline{
+    text-align: center;
+    padding-top: 25px;
+    padding-right: 15px;
+}
+
+.modal-heading{
+    font-size: 20px;
+}
+
+.modal-summary{
+    font-size: 15px;
+}
+
+.modal-more{
+    font-size: 13px;
+}
+
+.modal-share{
+    margin-top: 50px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    height: 100px;
+}
+
+.modal-sht{
+    padding-left: 15px;
+    padding-top: 20px;
+}
+
+.twitter-share-button{
+    padding-left: 15px;
+}
+
+.share-icon{
+    display: inline-flex;
+}
+
+.custom-equal-tabs .nav-item {
+    display: flex;
+    flex: 1;
+    text-align: center;
+}
+
+.hour-data {
+    flex-basis: 500px;
+    height: 400px;
+    margin-top: 30px;
+}
+
+.ellipsis {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    text-overflow: ellipsis;
+}
