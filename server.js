@@ -14,7 +14,7 @@ app.use(express.json());
 app.use(express.static('frontend/dist/frontend/browser')); 
 let globalPriceData = 0;
 
-app.get('/wallet', async (req, res) => {
+app.get('/api/wallet', async (req, res) => {
   try {
     const client = await MongoClient.connect(url);
     const db = client.db(dbName);
@@ -34,7 +34,7 @@ app.get('/wallet', async (req, res) => {
   }
 });
 
-app.put('/wallet', async (req, res) => {
+app.put('/api/wallet', async (req, res) => {
   const { amount } = req.body;
   try {
     const client = await MongoClient.connect(url);
@@ -49,7 +49,7 @@ app.put('/wallet', async (req, res) => {
   }
 });
 
-app.get('/portfolio/exists/:ticker', async (req, res) => {
+app.get('/api/portfolio/exists/:ticker', async (req, res) => {
   const { ticker } = req.params;
   try {
     const client = await MongoClient.connect(url);
@@ -64,7 +64,7 @@ app.get('/portfolio/exists/:ticker', async (req, res) => {
   }
 });
 
-app.get('/portfolio/quantity/:ticker', async (req, res) => {
+app.get('/api/portfolio/quantity/:ticker', async (req, res) => {
   const { ticker } = req.params;
   try {
     const client = await MongoClient.connect(url);
@@ -83,12 +83,12 @@ app.get('/portfolio/quantity/:ticker', async (req, res) => {
   }
 });
 
-app.post('/portfolio/sell', async (req, res) => {
+app.post('/api/portfolio/sell', async (req, res) => {
   const { ticker, quantity } = req.body;
   
   try {
     const client = await MongoClient.connect(url);
-    const db = client.db('HW3');
+    const db = client.db(dbName);
     const portfolio = db.collection('portfolio');
 
     // Find the stock in the portfolio
@@ -114,7 +114,7 @@ app.post('/portfolio/sell', async (req, res) => {
   }
 });
 
-app.get('/portfolio', async (req, res) => {
+app.get('/api/portfolio', async (req, res) => {
   try {
     const client = await MongoClient.connect(url);
     const db = client.db(dbName);
@@ -126,7 +126,7 @@ app.get('/portfolio', async (req, res) => {
   }
 });
 
-app.post('/portfolio', async (req, res) => {
+app.post('/api/portfolio', async (req, res) => {
   const { ticker, name, price, quantity, total, averageCost } = req.body;
 
   if (!ticker || !name || !price || !quantity || !total || !averageCost) {
@@ -174,7 +174,7 @@ app.post('/portfolio', async (req, res) => {
     }
 });
 
-app.get('/portfolio/ticker', async (req, res) => {
+app.get('/api/portfolio/ticker', async (req, res) => {
   try {
     const client = await MongoClient.connect(url);
     const db = client.db(dbName);
@@ -187,7 +187,7 @@ app.get('/portfolio/ticker', async (req, res) => {
   }
 });
 
-app.post('/portfolio/update', async (req, res) => {
+app.post('/api/portfolio/update', async (req, res) => {
   const { tickerPrices } = req.body;
 
   if (!tickerPrices) {
@@ -215,7 +215,7 @@ app.post('/portfolio/update', async (req, res) => {
   }
 });
 
-app.post('/addwatchlist', async (req, res) => {
+app.post('/api/addwatchlist', async (req, res) => {
   const stock = req.body;
   try {
     const client = await MongoClient.connect(url);
@@ -236,7 +236,7 @@ app.post('/addwatchlist', async (req, res) => {
     } 
 });
 
-app.delete('/delwatchlist/:ticker', async (req, res) => {
+app.delete('/api/delwatchlist/:ticker', async (req, res) => {
   const { ticker } = req.params;
   try {
     const client = await MongoClient.connect(url);
@@ -251,7 +251,7 @@ app.delete('/delwatchlist/:ticker', async (req, res) => {
   }
 });
 
-app.get('/getwatchlist', async (req, res) => {
+app.get('/api/getwatchlist', async (req, res) => {
   try {
     const client = await MongoClient.connect(url);
     const db = client.db(dbName);
@@ -264,7 +264,7 @@ app.get('/getwatchlist', async (req, res) => {
   }
 });
 
-app.get('/searchStock', async (req, res) => {
+app.get('/api/searchStock', async (req, res) => {
   const ticker = req.query.ticker;
   const apiUrl = `https://finnhub.io/api/v1/stock/profile2?symbol=${ticker}&token=${process.env.FINNHUB_API_KEY}`;
   try {
@@ -275,7 +275,7 @@ app.get('/searchStock', async (req, res) => {
   }
 });
 
-app.get('/searchPrice', async (req, res) => {
+app.get('/api/searchPrice', async (req, res) => {
   const ticker = req.query.ticker;
   const apiUrl = `https://finnhub.io/api/v1/quote?symbol=${ticker}&token=${process.env.FINNHUB_API_KEY}`;
   try {
@@ -287,7 +287,7 @@ app.get('/searchPrice', async (req, res) => {
   }
 });
 
-app.get('/searchPeer', async (req, res) => {
+app.get('/api/searchPeer', async (req, res) => {
   const ticker = req.query.ticker;
   const apiUrl = `https://finnhub.io/api/v1/stock/peers?symbol=${ticker}&token=${process.env.FINNHUB_API_KEY}`;
   try {
@@ -298,7 +298,7 @@ app.get('/searchPeer', async (req, res) => {
   }
 });
 
-app.get('/searchNews', async (req, res) => {
+app.get('/api/searchNews', async (req, res) => {
   const ticker = req.query.ticker;
   const today  = new Date();
   const old = new Date();
@@ -328,7 +328,7 @@ app.get('/searchNews', async (req, res) => {
   }
 })
 
-app.get('/searchTrends', async (req, res) => {
+app.get('/api/searchTrends', async (req, res) => {
   const ticker = req.query.ticker;
   const apiUrl = `https://finnhub.io/api/v1/stock/recommendation?symbol=${ticker}&token=${process.env.FINNHUB_API_KEY}`;
   try {
@@ -339,7 +339,7 @@ app.get('/searchTrends', async (req, res) => {
   }
 })
 
-app.get('/searchSent', async (req, res) => {
+app.get('/api/searchSent', async (req, res) => {
   const ticker = req.query.ticker;
   const apiUrl = `https://finnhub.io/api/v1/stock/insider-sentiment?symbol=${ticker}&from=2022-01-01&token=${process.env.FINNHUB_API_KEY}`;
   try {
@@ -350,7 +350,7 @@ app.get('/searchSent', async (req, res) => {
   }
 })
 
-app.get('/searchEarn', async (req, res) => {
+app.get('/api/searchEarn', async (req, res) => {
   const ticker = req.query.ticker;
   const apiUrl = `https://finnhub.io/api/v1/stock/earnings?symbol=${ticker}&token=${process.env.FINNHUB_API_KEY}`;
   try {
@@ -361,7 +361,7 @@ app.get('/searchEarn', async (req, res) => {
   }
 })
 
-app.get('/searchHist', async (req, res) => {
+app.get('/api/searchHist', async (req, res) => {
   const ticker = req.query.ticker;
 
   const today  = new Date();
@@ -391,7 +391,7 @@ app.get('/searchHist', async (req, res) => {
   }
 });
 
-app.get('/searchHour', async (req, res) => {
+app.get('/api/searchHour', async (req, res) => {
   const ticker = req.query.ticker;
 
   const Tepoch = globalPriceData.t;
@@ -437,7 +437,7 @@ app.get('/searchHour', async (req, res) => {
   }
 });
 
-app.get('/getautocomplete', async (req, res) => {
+app.get('/api/getautocomplete', async (req, res) => {
   const { term } = req.query;
 
   apiUrl = `https://finnhub.io/api/v1/search?q=${term}&token=${process.env.FINNHUB_API_KEY}`;
@@ -446,6 +446,13 @@ app.get('/getautocomplete', async (req, res) => {
   res.json(response.data)
 
 }); 
+
+const path = require("path");
+
+// Catch-all to serve Angular index.html for unknown routes
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'frontend/dist/frontend/browser/index.html'));
+});
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {

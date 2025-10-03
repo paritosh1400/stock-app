@@ -7,7 +7,7 @@ import { tap, catchError } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class WatchlistService {
-  private baseUrl = "https://stock-app-o2okdwm6na-uc.a.run.app";  
+  private baseUrl = "https://stock-app-875463449887.us-central1.run.app/api";  
 
   private watchlistSource = new BehaviorSubject<any[]>([]);
   currentWatchlist = this.watchlistSource.asObservable();

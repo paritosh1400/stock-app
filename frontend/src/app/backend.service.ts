@@ -13,7 +13,7 @@ interface AutocompleteItem {
   providedIn: 'root'
 })
 export class BackendService {
-  private baseUrl = "https://stock-app-o2okdwm6na-uc.a.run.app";
+  private baseUrl = "https://stock-app-875463449887.us-central1.run.app/api";
 
   constructor(private http: HttpClient) {}
 
